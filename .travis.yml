@@ -1,20 +1,9 @@
+sudo: false
 language: android
-jdk: oraclejdk8
-env:
-  global:
-    - ANDROID_TARGET=android-15
-    - ANDROID_ABI=armeabi-v7a
 android:
   components:
-  - tools
-  - platform-tools
-  - build-tools-23.0.3
-  - android-23
-  - extra-android-m2repository
-  - extra-google-m2repository
-licenses:
-    - 'android-sdk-preview-license-.+'
-    - 'android-sdk-license-.+'
-    - 'google-gdk-license-.+'
-script:
-  - ./gradlew
+    - platform-tools
+    - tools
+    - build-tools-23.0.2
+    - android-23
+    - extra
