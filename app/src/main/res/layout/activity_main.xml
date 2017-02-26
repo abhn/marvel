@@ -10,8 +10,10 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="cultoftheunicorn.marvel.MainActivity">
 
-    <TextView
+    <android.support.v7.widget.AppCompatButton
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Hello World!" />
+        android:id="@+id/openCamera"
+        android:text="Open camera"
+        android:layout_centerHorizontal="true"/>
 </RelativeLayout>
