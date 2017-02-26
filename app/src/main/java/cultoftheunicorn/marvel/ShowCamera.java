@@ -111,22 +111,23 @@ public class ShowCamera extends AppCompatActivity implements CvCameraViewListene
 
     /**
      * Rotate to match the orientation, but it would work with only landscape or portrait at a time
-     * FML
-     * TODO fix this a-hole
+     * Method receives a frame at a time, processing is done on the pixels in the frame and returned
+     * to be rendered to the display
      * @param inputFrame
      * @return
      */
     @Override
     public Mat onCameraFrame(CameraBridgeViewBase.CvCameraViewFrame inputFrame) {
-        mRgba = inputFrame.rgba();
-        Core.transpose(mRgba, mRgbaT);
-        Imgproc.resize(mRgbaT, mRgbaF, mRgbaF.size(), 0, 0, 0);
+        mRgba = inputFrame.gray();
+//        Core.transpose(mRgba, mRgbaT);
+//        Imgproc.resize(mRgbaT, mRgbaF, mRgbaF.size(), 0, 0, 0);
+//        Core.flip(mRgbaT, mRgbaF, 0);
 //        Core.flip(mRgbaF, mRgba, 1);
-        Core.transpose(mRgba, mRgbaT);
-        Imgproc.resize(mRgbaT, mRgbaF, mRgbaF.size(), 0, 0, 0);
-//        Core.flip(mRgbaF, mRgba, 1);
-        Core.transpose(mRgba, mRgbaT);
-        Imgproc.resize(mRgbaT, mRgbaF, mRgbaF.size(), 0, 0, 0);
+//        Core.transpose(mRgba, mRgbaT);
+//        Imgproc.resize(mRgbaT, mRgbaF, mRgbaF.size(), 0, 0, 0);
+////        Core.flip(mRgbaF, mRgba, 1);
+//        Core.transpose(mRgba, mRgbaT);
+//        Imgproc.resize(mRgbaT, mRgbaF, mRgbaF.size(), 0, 0, 0);
 //        Core.flip(mRgbaF, mRgba, 1);
         return mRgba;
     }
