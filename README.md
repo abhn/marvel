@@ -1,7 +1,11 @@
 # Marvel - Face Recognition With Android & OpenCV
 Marvel is an open source android project focused on easing the task of attendance marking in schools and colleges using face recognition on Android smartphones.
 
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Build Status](https://travis-ci.org/abhn/marvel.svg?branch=master)](https://travis-ci.org/abhn/marvel)
+[![Documentation Status](https://readthedocs.org/projects/marvel/badge/?version=latest)](http://marvel.readthedocs.io/en/latest/?badge=latest)
+
+
 
 ## The Problem
 In the schools and colleges, considerable amounts of time and energy are spent in tracking attendance of students. Biometrics are out of reach for most institutions. This problem can easily be solved with a handheld data collecting device such as a smartphone.
