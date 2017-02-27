@@ -13,7 +13,7 @@ In the schools and colleges, considerable amounts of time and energy are spent i
 A solution can be designing of an application that harnesses the phone camera and internet connection to enable fast data collection, storage and drawing of actionable insights from the data.
 
 ## Introduction To Docs
-The goal of this documentation is to enable users and developers make sense of what we're trying to achieve here and maybe extend this project to further suit their needs. The core of the project would always be face recognition, but in order to enable it's primary audience to used.
+The goal of this documentation is to enable users and developers make sense of what we're trying to achieve with this project and maybe extend this project to further suit their needs.
 
 Link to developer documentation: [Stable](http://marvel.readthedocs.io/en/latest)
 
