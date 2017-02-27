@@ -5,5 +5,5 @@ import org.junit.Test;
 import org.opencv.core.Mat;
 
 public class TestShowCamera {
-    
+
 }
