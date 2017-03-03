@@ -1,5 +1,7 @@
 package org.opencv.android;
 
+import java.io.IOException;
+
 /**
  * Interface for callback object in case of asynchronous initialization of OpenCV.
  */

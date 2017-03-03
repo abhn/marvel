@@ -2,22 +2,21 @@
 Marvel is an open source android project focused on easing the task of attendance marking in schools and colleges using face recognition on Android smartphones.
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![Build Status](https://travis-ci.org/abhn/marvel.svg?branch=master)](https://travis-ci.org/abhn/marvel)
+[![Build Status](https://travis-ci.org/abhn/marvel.svg?branch=face-detection)](https://travis-ci.org/abhn/marvel)
 [![Documentation Status](https://readthedocs.org/projects/marvel/badge/?version=latest)](http://marvel.readthedocs.io/en/latest/?badge=latest)
 
 
 
 ## The Problem
-In the schools and colleges, considerable amounts of time and energy are spent in tracking attendance of students. Biometrics are out of reach for most institutions. This problem can easily be solved with a handheld data collecting device such as a smartphone.
+In our schools and colleges, considerable amounts of time and energy is spent in tracking attendance of students. Biometrics are out of reach for most institutions. This problem can easily be solved with a handheld data collecting device such as a smartphone.
 
-A solution can be designing of an application that harnesses the phone camera and internet connection to enable fast data collection, storage and drawing of actionable insights from the data.
+One solution can be designing of an application that harnesses the phone's camera and internet connection to enable fast data collection, storage and drawing of actionable insights from the data. This is what we intend to do through Marvel.
 
 ## Introduction To Docs
 The goal of this documentation is to enable users and developers make sense of what we're trying to achieve with this project and maybe extend this project to further suit their needs.
 
-Link to developer documentation: [Stable](http://marvel.readthedocs.io/en/latest)
-
-Link to user documentation: TODO
+- Link to developer documentation: [Stable](http://marvel.readthedocs.io/en/latest)
+- Link to user documentation: TODO
 
 ## Broad Requirements
 - Attendance Marker
