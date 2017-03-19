@@ -16,4 +16,13 @@
         android:id="@+id/openCamera"
         android:text="Open camera"
         android:layout_centerHorizontal="true"/>
+
+    <android.support.v7.widget.AppCompatButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/openCamera"
+        android:layout_marginTop="20dp"
+        android:id="@+id/trainFace"
+        android:text="Train Face"
+        android:layout_centerHorizontal="true"/>
 </RelativeLayout>

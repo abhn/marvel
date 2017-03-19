@@ -4,13 +4,13 @@
     xmlns:opencv="http://schemas.android.com/apk/res-auto"
     android:layout_height="match_parent">
 
-    <org.opencv.android.JavaCameraView
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:visibility="gone"
-        android:id="@+id/show_camera_activity_java_surface_view"
-        opencv:show_fps="true"
-        opencv:camera_id="front" />
-        <!-- front back or any -->
+    <!--<org.opencv.android.JavaCameraView-->
+        <!--android:layout_width="fill_parent"-->
+        <!--android:layout_height="fill_parent"-->
+        <!--android:visibility="gone"-->
+        <!--android:id="@+id/show_camera_activity_java_surface_view"-->
+        <!--opencv:show_fps="true"-->
+        <!--opencv:camera_id="front" />-->
+        <!--&lt;!&ndash; front back or any &ndash;&gt;-->
 
 </LinearLayout>

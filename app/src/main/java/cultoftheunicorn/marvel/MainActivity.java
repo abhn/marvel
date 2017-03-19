@@ -33,5 +33,14 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        AppCompatButton trainFace = (AppCompatButton) findViewById(R.id.trainFace);
+        trainFace.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(MainActivity.this, TrainFace.class);
+                startActivity(intent);
+            }
+        });
+
     }
 }
