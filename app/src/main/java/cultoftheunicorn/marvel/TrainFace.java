@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
+import android.nfc.Tag;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.v4.content.FileProvider;
@@ -13,7 +14,9 @@ import android.os.Bundle;
 import android.support.v7.widget.AppCompatButton;
 import android.util.Log;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 
 import org.opencv.android.Utils;
@@ -31,19 +34,26 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Locale;
 
 public class TrainFace extends AppCompatActivity {
 
     private static final String TAG = "TrainFace";
     private CascadeClassifier cascadeClassifier;
+    private Bitmap bmp = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_train_face);
 
+        final ImageView imageView = (ImageView) findViewById(R.id.imageView);
+        final EditText editText = (EditText) findViewById(R.id.label);
+
+        Log.d(TAG, getResources().getResourceName(R.id.imageView));
 
         AppCompatButton btn = (AppCompatButton) findViewById(R.id.startCam);
         btn.setOnClickListener(new View.OnClickListener() {
@@ -53,14 +63,24 @@ public class TrainFace extends AppCompatActivity {
             }
         });
 
+        final AppCompatButton submitButton = (AppCompatButton) findViewById(R.id.submit);
+        submitButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(!editText.getText().toString().equals("") && !imageView.getTag().equals("profilePicture")) {
+                    submitPhoto(editText.getText().toString());
+                }
+            }
+        });
+
     }
 
     String mCurrentPhotoPath;
 
     private File createImageFile() throws IOException {
         // Create an image file name
-        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
-        String imageFileName = "JPEG_" + timeStamp + "_";
+        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(new Date());
+        String imageFileName = timeStamp + "_";
         File storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
         File image = File.createTempFile(
                 imageFileName,  /* prefix */
@@ -70,6 +90,27 @@ public class TrainFace extends AppCompatActivity {
 
         // Save a file: path for use with ACTION_VIEW intents
         mCurrentPhotoPath = image.getAbsolutePath();
+        return image;
+    }
+
+    private File createImageFile(String label) throws IOException {
+        // Create an image file name
+        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(new Date());
+        String imageFileName = label+"-" + timeStamp + "_";
+        File storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
+        File image = File.createTempFile(
+                imageFileName,  /* prefix */
+                ".png",         /* suffix */
+                storageDir      /* directory */
+        );
+
+        // Save a file: path for use with ACTION_VIEW intents
+        File file = new File(mCurrentPhotoPath);
+        Boolean deleted = file.delete();
+
+        if(deleted)
+            mCurrentPhotoPath = image.getAbsolutePath();
+
         return image;
     }
 
@@ -171,7 +212,6 @@ public class TrainFace extends AppCompatActivity {
             Rect roi = new Rect(facesArray[0].x, facesArray[0].y, facesArray[0].width, facesArray[0].height);
             Mat cropped = new Mat(greyscaleImage, roi);
 
-            Bitmap bmp = null;
             try {
 //                Imgproc.cvtColor(cropped, cropped, Imgproc.COLOR_GRAY2RGBA, 4);
                 bmp = Bitmap.createBitmap(cropped.cols(), cropped.rows(), Bitmap.Config.ARGB_8888);
@@ -181,10 +221,32 @@ public class TrainFace extends AppCompatActivity {
 
 
             ImageView myImage = (ImageView) findViewById(R.id.imageView);
+            myImage.setTag("cropped");
             myImage.setImageBitmap(bmp);
 
         }
 
         super.onActivityResult(requestCode, resultCode, data);
     }
+
+    public void submitPhoto(String label) {
+
+        if(bmp != null) {
+            try {
+                File imageCropped = createImageFile(label);
+
+                OutputStream outputStream;
+                outputStream = new FileOutputStream(imageCropped);
+                bmp.compress(Bitmap.CompressFormat.PNG, 100, outputStream);
+                outputStream.flush();
+                outputStream.close();
+
+                Toast.makeText(this, "Photo saved successfully.", Toast.LENGTH_SHORT).show();
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
 }

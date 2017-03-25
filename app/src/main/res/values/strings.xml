@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">Marvel</string>
+    <string name="cropped_photo_of_the_face">cropped photo of the face</string>
+    <string name="enter_the_id_or_label">Enter the label</string>
+    <string name="note_add_the_same_lable_for_the_same_person">Note: Add the same lable for the same person</string>
+    <string name="submit">Submit</string>
 </resources>

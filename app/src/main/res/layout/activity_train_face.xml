@@ -14,12 +14,49 @@
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="30dp"
-        android:text="Start" />
+        android:text="Take a photo"
+        android:textAllCaps="false"/>
 
     <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:layout_marginTop="18dp"
+        android:id="@+id/imageView"
+        android:contentDescription="@string/cropped_photo_of_the_face"
+        app:srcCompat="@drawable/dummy_profile_pic"
         android:layout_below="@+id/startCam"
-        android:layout_marginTop="10dp"
-        android:id="@+id/imageView"/>
+        android:layout_centerHorizontal="true"
+        android:tag="profilePicture"/>
+
+    <EditText
+        android:id="@+id/label"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/imageView"
+        android:layout_marginTop="20dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:hint="@string/enter_the_id_or_label"
+        android:textAlignment="center"
+        android:gravity="center"/>
+
+    <TextView
+        android:id="@+id/note"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/note_add_the_same_lable_for_the_same_person"
+        android:layout_below="@+id/label"
+        android:layout_centerHorizontal="true" />
+
+    <android.support.v7.widget.AppCompatButton
+        android:id="@+id/submit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/submit"
+        android:textAllCaps="false"
+        android:layout_below="@id/note"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"/>
+
+
 </RelativeLayout>
