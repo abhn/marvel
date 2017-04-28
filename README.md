@@ -1,43 +1,26 @@
 # Marvel - Face Recognition With Android & OpenCV
-Marvel is an open source android project focused on easing the task of attendance marking in schools and colleges using face recognition on Android smartphones.
+Marvel is an open source android application that does face recognition using OpenCV. Originally made for attendence marking in college, Marvel can be used for any generic use case of face recognition.
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![Build Status](https://travis-ci.org/abhn/marvel.svg?branch=face-detection)](https://travis-ci.org/abhn/marvel)
-[![Documentation Status](https://readthedocs.org/projects/marvel/badge/?version=latest)](http://marvel.readthedocs.io/en/latest/?badge=latest)
 
+### Credits
+- [https://github.com/ayuso2013/](https://github.com/ayuso2013/)
+- [https://github.com/kunalrmhatre/](https://github.com/kunalrmhatre/) 
 
+### Screenshots
+![one](https://raw.githubusercontent.com/abhn/marvel/master/docs/static/one.jpg)
+![two](https://raw.githubusercontent.com/abhn/marvel/master/docs/static/two.jpg)
 
-## The Problem
-In our schools and colleges, considerable amounts of time and energy is spent in tracking attendance of students. Biometrics are out of reach for most institutions. This problem can easily be solved with a handheld data collecting device such as a smartphone.
+1. **Home page** - For switching between training and testing
+2. **Home > Training (enter ID)** - Enter ID for the train images
+3. **Home > Training (enter ID) > Capture** -  Capture train image for the ID
+4. **Home > Recognition** - Recognize faces
+5. **Home > Recognition > Review** - Review capture results (Optionally push to database)
 
-One solution can be designing of an application that harnesses the phone's camera and internet connection to enable fast data collection, storage and drawing of actionable insights from the data. This is what we intend to do through Marvel.
+### Usage
+- Clone this repository
+- Open project in android studio
+- Optional: Configure firebase if required. Check out comments in ReviewResults activity
 
-## Introduction To Docs
-The goal of this documentation is to enable users and developers make sense of what we're trying to achieve with this project and maybe extend this project to further suit their needs.
-
-- Link to developer documentation: [Stable](http://marvel.readthedocs.io/en/latest)
-- Link to user documentation: TODO
-
-## Broad Requirements
-- Attendance Marker
-    - Register faculty [Not Done]
-    - Register individual student
-    - Capture attendance / Review and store results
-    - Insights and analytics [Not Done]
-    - Export results (xls, csv, sql) [Not Done]
-
-## Primary Stakeholders
-- Institute faculty with basic knowledge of application usage
-
-## Assumptions
-- Institute faculty has a relatively newer Android smartphone
-- Phone has a rear camera to capture data
-- Phone has an internet connection to sync data
-
-## Milestones
-
-1. Implement face recognition algorithm in a dummy app (Single face)
-2. Implement face recognition algorithm for group
-3. Get app structure ready for integration of algorithm
-4. Reviewing attendance / Committing attendance to Firebase DB.
-5. Analytics and insights section
+### License
+MIT
