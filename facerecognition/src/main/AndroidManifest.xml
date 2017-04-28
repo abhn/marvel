@@ -39,7 +39,7 @@
         android:label="@string/app_name"
         android:theme="@style/AppTheme">
         <activity
-            android:name="org.opencv.cultoftheunicorn.marvel.cultoftheunicorn.marvel.MainActivity"
+            android:name="cultoftheunicorn.marvel.MainActivity"
             android:label="Marvel">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -48,18 +48,19 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="org.opencv.cultoftheunicorn.marvel.cultoftheunicorn.marvel.Recognize"
+            android:name="cultoftheunicorn.marvel.Recognize"
             android:screenOrientation="landscape" />
         <activity
-            android:name="org.opencv.cultoftheunicorn.marvel.cultoftheunicorn.marvel.Training"
+            android:name="cultoftheunicorn.marvel.Training"
             android:label="Training"
             android:screenOrientation="landscape" />
         <activity
-            android:name="org.opencv.cultoftheunicorn.marvel.cultoftheunicorn.marvel.NameActivity"
+            android:name="cultoftheunicorn.marvel.NameActivity"
             android:windowSoftInputMode="adjustNothing" />
-        <activity android:name="org.opencv.cultoftheunicorn.marvel.cultoftheunicorn.marvel.ReviewResults"
-            android:label="Review and Mark"
-            android:screenOrientation="portrait"/>
+        <activity android:name="cultoftheunicorn.marvel.ReviewResults"
+            android:label="Review and Mark"/>
+
+        <!--android:screenOrientation="portrait"-->
     </application>
 
 </manifest>
