@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">OCV Reconocimiento de caras</string>
+    <string name="BLANK"></string>
+    <string name="SDelete">Borrar</string>
+    <string name="SSearch">Buscar</string>
+    <string name="STrain">Entrenar</string>
+    <string name="SViewAll">Ver todo</string>
+    <string name="SEnter">Escriba nombre,luego pulse Rec</string>
+    <string name="SStopTrain">Parar entreno</string>
+    <string name="SStopSearch">Parar búsqueda</string>
+    <string name="Straininig">Entrenando...</string>
+ 	<string name="SCanntoPredic">Se necesita más de una cara para buscar</string>
+ 	<string name="SIdle">Pausa</string>
+    <string name="SFaceName">Nombre:</string>
+    <string name="SSearching">Buscando</string>
+    <string name="SFrontCamera">Camara Frontal</string>
+    <string name="SBackCamera">Camara Trasera</string>
+</resources>

@@ -1,0 +1,32 @@
+apply plugin: 'com.android.application'
+
+android {
+    compileSdkVersion 22
+    buildToolsVersion "25.0.0"
+
+    defaultConfig {
+        applicationId "cultoftheunicorn.marvel"
+        minSdkVersion 15
+        targetSdkVersion 22
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.txt'
+        }
+    }
+}
+
+dependencies {
+    compile project(':openCVLibrary2410')
+    compile files('libs/javacpp.jar')
+    compile files('libs/javacv.jar')
+    compile 'com.android.support:appcompat-v7:22.2.0'
+    compile 'com.android.support.constraint:constraint-layout:1.0.0-alpha9'
+    compile 'com.android.support:recyclerview-v7:22.2.0'
+//    compile 'com.google.firebase:firebase-database:10.0.1'
+}
+
+
+//apply plugin: 'com.google.gms.google-services'
