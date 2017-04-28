@@ -1,4 +1,4 @@
-package org.opencv.javacv.facerecognition;
+package cultoftheunicorn.marvel;
 
 import java.io.FileOutputStream;
 import java.util.List;
@@ -51,15 +51,15 @@ public class Tutorial3View extends JavaCameraView {
         mMaxWidth = resolution.width;
         connectCamera(getWidth(), getHeight());
     }
-    
+
     public void setResolution(int w,int h) {
         disconnectCamera();
         mMaxHeight = h;
         mMaxWidth = w;
-       
+
         connectCamera(getWidth(), getHeight());
     }
-    
+
     public void setAutofocus()
     {
     	Camera.Parameters parameters = mCamera.getParameters();
@@ -69,7 +69,7 @@ public class Tutorial3View extends JavaCameraView {
 //      	   parameters.setVideoStabilization(true);
 //         }
     	 mCamera.setParameters(parameters);
-		     
+
     }
     public void setCamFront()
     {
@@ -79,7 +79,7 @@ public class Tutorial3View extends JavaCameraView {
     }
     public void setCamBack()
     {
-    	 disconnectCamera();    	 
+    	 disconnectCamera();
     	 setCameraIndex(org.opencv.android.CameraBridgeViewBase.CAMERA_ID_BACK );
     	 connectCamera(getWidth(), getHeight());
     }
@@ -88,7 +88,7 @@ public class Tutorial3View extends JavaCameraView {
     {
      return	Camera.getNumberOfCameras();
     }
-    
+
     public Size getResolution() {
         return mCamera.getParameters().getPreviewSize();
     }

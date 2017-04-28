@@ -22,5 +22,8 @@ Marvel is an open source android application that does face recognition using Op
 - Open project in android studio
 - Optional: Configure firebase if required. Check out comments in ReviewResults activity
 
+### Directories
+- /sdcard/
+
 ### License
 MIT

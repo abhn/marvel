@@ -1,7 +1,6 @@
-package org.opencv.javacv.facerecognition;
+package cultoftheunicorn.marvel;
 
 import android.content.Context;
-import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.os.Environment;
@@ -10,13 +9,8 @@ import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.MenuItem;
-import android.view.View;
-import android.widget.Button;
 import android.widget.CompoundButton;
-import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ToggleButton;
 
@@ -31,17 +25,15 @@ import org.opencv.core.MatOfRect;
 import org.opencv.core.Rect;
 import org.opencv.core.Scalar;
 import org.opencv.core.Size;
+import org.opencv.cultoftheunicorn.marvel.R;
 import org.opencv.objdetect.CascadeClassifier;
 
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.Set;
 
-public class Recognize extends AppCompatActivity implements CameraBridgeViewBase.CvCameraViewListener2 {
+public class Training extends AppCompatActivity implements CameraBridgeViewBase.CvCameraViewListener2 {
 
     private static final String    TAG                 = "OCVSample::Activity";
     private static final Scalar FACE_RECT_COLOR     = new Scalar(0, 255, 0, 255);
@@ -49,7 +41,6 @@ public class Recognize extends AppCompatActivity implements CameraBridgeViewBase
     public static final int        NATIVE_DETECTOR     = 1;
 
     public static final int TRAINING= 0;
-    public static final int SEARCHING= 1;
     public static final int IDLE= 2;
 
     private static final int frontCam =1;
@@ -57,11 +48,6 @@ public class Recognize extends AppCompatActivity implements CameraBridgeViewBase
 
 
     private int faceState=IDLE;
-
-    private MenuItem nBackCam;
-    private MenuItem               mFrontCam;
-    private MenuItem               mEigen;
-
 
     private Mat                    mRgba;
     private Mat                    mGray;
@@ -78,41 +64,31 @@ public class Recognize extends AppCompatActivity implements CameraBridgeViewBase
     String mPath="";
 
     private Tutorial3View   mOpenCvCameraView;
-    private int mChooseCamera = backCam;
 
     String text;
-    TextView textresult;
     private ImageView Iv;
     Bitmap mBitmap;
     Handler mHandler;
 
     PersonRecognizer fr;
-    ToggleButton scan;
-    ToggleButton toggleButtonGrabar,toggleButtonTrain,buttonSearch;
     ToggleButton capture;
-    Button buttonCatalog;
-    ImageView ivGreen,ivYellow,ivRed;
-    ImageButton imCamera;
-
-    TextView textState;
-    com.googlecode.javacv.cpp.opencv_contrib.FaceRecognizer faceRecognizer;
-
-    Set<String> uniqueNames = new HashSet<String>();
-
-    // max number of people to detect in a session
-    String[] uniqueNamesArray = new String[10];
 
     static final long MAXIMG = 10;
 
-    ArrayList<Mat> alimgs = new ArrayList<Mat>();
-
-    int[] labels = new int[(int)MAXIMG];
     int countImages=0;
 
-    labels labelsFile;
+    Labels labelsFile;
     static {
         OpenCVLoader.initDebug();
         System.loadLibrary("opencv_java");
+    }
+
+    public Training() {
+        mDetectorName = new String[2];
+        mDetectorName[JAVA_DETECTOR] = "Java";
+        mDetectorName[NATIVE_DETECTOR] = "Native (tracking)";
+
+        Log.i(TAG, "Instantiated new " + this.getClass());
     }
 
     private BaseLoaderCallback mLoaderCallback = new BaseLoaderCallback(this) {
@@ -170,21 +146,28 @@ public class Recognize extends AppCompatActivity implements CameraBridgeViewBase
         }
     };
 
-    public Recognize() {
-        mDetectorName = new String[2];
-        mDetectorName[JAVA_DETECTOR] = "Java";
-        mDetectorName[NATIVE_DETECTOR] = "Native (tracking)";
-
-        Log.i(TAG, "Instantiated new " + this.getClass());
-    }
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_recognize);
+        setContentView(R.layout.activity_training);
 
-        scan = (ToggleButton) findViewById(R.id.scan);
-        final TextView results = (TextView) findViewById(R.id.results);
+        /*Toolbar toolbar = (Toolbar) findViewById(R.id.app_bar);
+        setSupportActionBar(toolbar);
+
+        if(getSupportActionBar() != null) {
+            getSupportActionBar().setTitle("Training");
+        }*/
+
+        text = getIntent().getStringExtra("name");
+        Iv = (ImageView) findViewById(R.id.imagePreview);
+
+        capture = (ToggleButton) findViewById(R.id.capture);
+        capture.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                captureOnClick();
+            }
+        });
 
         mOpenCvCameraView = (Tutorial3View) findViewById(R.id.tutorial3_activity_java_surface_view);
         mOpenCvCameraView.setCvCameraViewListener(this);
@@ -194,67 +177,42 @@ public class Recognize extends AppCompatActivity implements CameraBridgeViewBase
 
         Log.e("Path", mPath);
 
-        labelsFile= new labels(mPath);
+        labelsFile= new Labels(mPath);
 
         mHandler = new Handler() {
             @Override
             public void handleMessage(Message msg) {
-                /*
-                    display a newline separated list of individual names
-                 */
-                String tempName = msg.obj.toString();
-                if (!(tempName.equals("Unknown"))) {
-                    tempName = capitalize(tempName);
-                    uniqueNames.add(tempName);
-                    uniqueNamesArray = uniqueNames.toArray(new String[uniqueNames.size()]);
-                    StringBuilder strBuilder = new StringBuilder();
-                    for (int i = 0; i < uniqueNamesArray.length; i++) {
-                        strBuilder.append(uniqueNamesArray[i] + "\n");
+                if (msg.obj=="IMG")
+                {
+                    Canvas canvas = new Canvas();
+                    canvas.setBitmap(mBitmap);
+                    Iv.setImageBitmap(mBitmap);
+                    if (countImages>=MAXIMG-1)
+                    {
+                        capture.setChecked(false);
+                        captureOnClick();
                     }
-                    String textToDisplay = strBuilder.toString();
-                    results.setText(textToDisplay);
                 }
             }
         };
 
-        scan.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                if(b) {
-                    if(!fr.canPredict()) {
-                        scan.setChecked(false);
-                        Toast.makeText(getApplicationContext(), getResources().getString(R.string.SCanntoPredic), Toast.LENGTH_LONG).show();
-                        return;
-                    }
-                    faceState = SEARCHING;
-                }
-                else {
-                    faceState = IDLE;
-                }
-            }
-        });
-
         boolean success=(new File(mPath)).mkdirs();
+
         if (!success)
-        {
             Log.e("Error","Error creating directory");
+
+    }
+
+    void captureOnClick()
+    {
+        if (capture.isChecked())
+            faceState = TRAINING;
+        else {
+            Toast.makeText(this, "Captured", Toast.LENGTH_SHORT).show();
+            countImages=0;
+            faceState=IDLE;
+            Iv.setImageResource(R.drawable.user_image);
         }
-
-        Button submit = (Button) findViewById(R.id.submit);
-        submit.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(uniqueNames.size() > 0) {
-                    Intent intent = new Intent(Recognize.this, ReviewResults.class);
-                    intent.putExtra("list", uniqueNamesArray);
-                    startActivity(intent);
-                }
-                else {
-                    Toast.makeText(Recognize.this, "Empty list cannot be sent further", Toast.LENGTH_LONG).show();
-                }
-            }
-        });
-
     }
 
     @Override
@@ -271,6 +229,7 @@ public class Recognize extends AppCompatActivity implements CameraBridgeViewBase
 
     @Override
     public Mat onCameraFrame(CameraBridgeViewBase.CvCameraViewFrame inputFrame) {
+
         mRgba = inputFrame.rgba();
         mGray = inputFrame.gray();
 
@@ -299,24 +258,29 @@ public class Recognize extends AppCompatActivity implements CameraBridgeViewBase
 
         Rect[] facesArray = faces.toArray();
 
-        if ((facesArray.length>0) && (faceState==SEARCHING))
+        if ((facesArray.length==1)&&(faceState==TRAINING)&&(countImages<MAXIMG)&&(!text.equals("")))
         {
-            Mat m=new Mat();
-            m=mGray.submat(facesArray[0]);
+
+
+            Mat m;
+            Rect r=facesArray[0];
+
+
+            m=mRgba.submat(r);
             mBitmap = Bitmap.createBitmap(m.width(),m.height(), Bitmap.Config.ARGB_8888);
 
 
             Utils.matToBitmap(m, mBitmap);
+
             Message msg = new Message();
             String textTochange = "IMG";
             msg.obj = textTochange;
-            //mHandler.sendMessage(msg);
-
-            textTochange = fr.predict(m);
-            mLikely=fr.getProb();
-            msg = new Message();
-            msg.obj = textTochange;
             mHandler.sendMessage(msg);
+            if (countImages<MAXIMG)
+            {
+                fr.add(m, text);
+                countImages++;
+            }
 
         }
         for (int i = 0; i < facesArray.length; i++)
@@ -342,10 +306,5 @@ public class Recognize extends AppCompatActivity implements CameraBridgeViewBase
     protected void onDestroy() {
         super.onDestroy();
         mOpenCvCameraView.disableView();
-    }
-
-//    because capitalize is the new black
-    private String capitalize(final String line) {
-        return Character.toUpperCase(line.charAt(0)) + line.substring(1);
     }
 }

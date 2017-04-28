@@ -1,4 +1,4 @@
-package org.opencv.javacv.facerecognition;
+package cultoftheunicorn.marvel;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -14,42 +14,40 @@ import java.util.Iterator;
 import java.util.StringTokenizer;
 
 
-import android.os.Environment;
 import android.util.Log;
 
 
-public class labels {
+public class Labels {
 
 	String mPath;
-	 class label
-	{
+	class label {
 		public label(String s, int n) {
 			thelabel=s;
 			num=n;
 		}
-		
+
 		int num;
 		String thelabel;
 	}
 	//	HashMap<Integer,String> thelist=new HashMap<Integer,String>();
 
 	ArrayList<label> thelist=new ArrayList<label>();
-	
-	public labels(String Path)
+
+	public Labels(String Path)
 	{
 		mPath=Path;
 	}
-	
+
 	public boolean isEmpty()
 	{
 		return !(thelist.size()>0);
 	}
-	
+
 	public void add(String s,int n)
 	{
 		thelist.add( new label(s,n));
 	}
-	
+
 	public String get(int i) {
 		Iterator<label> Ilabel = thelist.iterator();
 		while (Ilabel.hasNext()) {
@@ -57,9 +55,9 @@ public class labels {
 			if (l.num==i)
 				return l.thelabel;
 		}
-	  return "";
+		return "";
 	}
-	
+
 	public int get(String s) {
 		Iterator<label> Ilabel = thelist.iterator();
 		while (Ilabel.hasNext()) {
@@ -67,11 +65,10 @@ public class labels {
 			if (l.thelabel.equalsIgnoreCase(s))
 				return l.num;
 		}
-	  return -1;
+		return -1;
 	}
-	
-	public void Save()
-	{
+
+	public void Save() {
 		try {
 			File f=new File (mPath+"faces.txt");
 			f.createNewFile();
@@ -88,10 +85,8 @@ public class labels {
 			Log.e("error",e.getMessage()+" "+e.getCause());
 			e.printStackTrace();
 		}
-		
-		
 	}
-	
+
 	public void Read() {
 		try {
 
@@ -107,7 +102,7 @@ public class labels {
 				StringTokenizer tokens=new StringTokenizer(strLine,",");
 				String s=tokens.nextToken();
 				String sn=tokens.nextToken();
-				
+
 				thelist.add(new label(s,Integer.parseInt(sn)));
 			}
 			br.close();
