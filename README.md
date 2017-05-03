@@ -7,6 +7,9 @@ Marvel is an open source android application that does face recognition using Op
 - [https://github.com/ayuso2013/](https://github.com/ayuso2013/)
 - [https://github.com/kunalrmhatre/](https://github.com/kunalrmhatre/) 
 
+### Video Demo
+<iframe width="560" height="315" src="https://www.youtube.com/embed/EYmOe_QCN4E" frameborder="0" allowfullscreen></iframe>
+
 ### Screenshots
 <img src="https://raw.githubusercontent.com/abhn/marvel/master/docs/static/collage.jpg" width="75%"/>
 
