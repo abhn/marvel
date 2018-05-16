@@ -19,7 +19,7 @@ Marvel is an open source android application that does face recognition using Op
 5. **Home > Recognition > Review** - Review capture results (Optionally push to database)
 
 ### Usage
-- Either download this [APK file](https://goo.gl/UlTC0l)
+- Either download this [APK file](https://drive.google.com/open?id=1gRT05lNnGawxbmiXFgqmujd46QuqE-1n)
 
 **OR**
 
