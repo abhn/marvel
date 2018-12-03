@@ -8,6 +8,7 @@ import android.os.Handler;
 import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 import android.widget.CompoundButton;
 import android.widget.ImageView;
@@ -33,7 +34,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
-public class Training extends AppCompatActivity implements CameraBridgeViewBase.CvCameraViewListener2 {
+public class TrainingActivity extends AppCompatActivity implements CameraBridgeViewBase.CvCameraViewListener2 {
 
     private static final String    TAG                 = "OCVSample::Activity";
     private static final Scalar FACE_RECT_COLOR     = new Scalar(0, 255, 0, 255);
@@ -66,12 +67,12 @@ public class Training extends AppCompatActivity implements CameraBridgeViewBase.
     private Tutorial3View   mOpenCvCameraView;
 
     String text;
-    private ImageView Iv;
+    private ImageView imageView;
     Bitmap mBitmap;
     Handler mHandler;
 
-    PersonRecognizer fr;
-    ToggleButton capture;
+    PersonRecognizer personRecognizer;
+    ToggleButton captureButton;
 
     static final long MAXIMG = 10;
 
@@ -83,7 +84,7 @@ public class Training extends AppCompatActivity implements CameraBridgeViewBase.
         System.loadLibrary("opencv_java");
     }
 
-    public Training() {
+    public TrainingActivity() {
         mDetectorName = new String[2];
         mDetectorName[JAVA_DETECTOR] = "Java";
         mDetectorName[NATIVE_DETECTOR] = "Native (tracking)";
@@ -96,13 +97,12 @@ public class Training extends AppCompatActivity implements CameraBridgeViewBase.
         public void onManagerConnected(int status) {
             switch (status) {
                 case LoaderCallbackInterface.SUCCESS:
-                {
                     Log.i(TAG, "OpenCV loaded successfully");
 
-                    fr=new PersonRecognizer(mPath);
+                    personRecognizer = new PersonRecognizer(mPath);
                     String s = getResources().getString(R.string.Straininig);
                     //Toast.makeText(getApplicationContext(),s, Toast.LENGTH_LONG).show();
-                    fr.load();
+                    personRecognizer.load();
 
                     try {
                         // load cascade file from application resources
@@ -116,15 +116,18 @@ public class Training extends AppCompatActivity implements CameraBridgeViewBase.
                         while ((bytesRead = is.read(buffer)) != -1) {
                             os.write(buffer, 0, bytesRead);
                         }
+
                         is.close();
                         os.close();
 
                         mJavaDetector = new CascadeClassifier(mCascadeFile.getAbsolutePath());
+
                         if (mJavaDetector.empty()) {
                             Log.e(TAG, "Failed to load cascade classifier");
                             mJavaDetector = null;
-                        } else
+                        } else {
                             Log.i(TAG, "Loaded cascade classifier from " + mCascadeFile.getAbsolutePath());
+                        }
 
                         cascadeDir.delete();
 
@@ -134,12 +137,13 @@ public class Training extends AppCompatActivity implements CameraBridgeViewBase.
                     }
 
                     mOpenCvCameraView.enableView();
+                    break;
 
-                } break;
+
                 default:
-                {
                     super.onManagerConnected(status);
-                } break;
+                    break;
+
 
 
             }
@@ -159,10 +163,10 @@ public class Training extends AppCompatActivity implements CameraBridgeViewBase.
         }*/
 
         text = getIntent().getStringExtra("name");
-        Iv = (ImageView) findViewById(R.id.imagePreview);
+        imageView = (ImageView) findViewById(R.id.imagePreview);
 
-        capture = (ToggleButton) findViewById(R.id.capture);
-        capture.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+        captureButton = (ToggleButton) findViewById(R.id.capture);
+        captureButton.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
                 captureOnClick();
@@ -173,7 +177,8 @@ public class Training extends AppCompatActivity implements CameraBridgeViewBase.
         mOpenCvCameraView.setCvCameraViewListener(this);
 
         //mPath=getFilesDir()+"/facerecogOCV/";
-        mPath = Environment.getExternalStorageDirectory()+"/facerecogOCV/";
+
+        mPath = Environment.getExternalStorageDirectory() + "/facerecogOCV/";
 
         Log.e("Path", mPath);
 
@@ -182,14 +187,13 @@ public class Training extends AppCompatActivity implements CameraBridgeViewBase.
         mHandler = new Handler() {
             @Override
             public void handleMessage(Message msg) {
-                if (msg.obj=="IMG")
-                {
+                if (msg.obj=="IMG") {
                     Canvas canvas = new Canvas();
                     canvas.setBitmap(mBitmap);
-                    Iv.setImageBitmap(mBitmap);
-                    if (countImages>=MAXIMG-1)
-                    {
-                        capture.setChecked(false);
+                    imageView.setImageBitmap(mBitmap);
+
+                    if (countImages >=MAXIMG - 1) {
+                        captureButton.setChecked(false);
                         captureOnClick();
                     }
                 }
@@ -203,15 +207,14 @@ public class Training extends AppCompatActivity implements CameraBridgeViewBase.
 
     }
 
-    void captureOnClick()
-    {
-        if (capture.isChecked())
+    void captureOnClick() {
+        if (captureButton.isChecked())
             faceState = TRAINING;
         else {
             Toast.makeText(this, "Captured", Toast.LENGTH_SHORT).show();
-            countImages=0;
-            faceState=IDLE;
-            Iv.setImageResource(R.drawable.user_image);
+            countImages = 0;
+            faceState = IDLE;
+            imageView.setImageResource(R.drawable.user_image);
         }
     }
 
@@ -243,6 +246,7 @@ public class Training extends AppCompatActivity implements CameraBridgeViewBase.
 
         MatOfRect faces = new MatOfRect();
 
+        // detect faces
         if (mDetectorType == JAVA_DETECTOR) {
             if (mJavaDetector != null)
                 mJavaDetector.detectMultiScale(mGray, faces, 1.1, 2, 2, // TODO: objdetect.CV_HAAR_SCALE_IMAGE
@@ -258,33 +262,32 @@ public class Training extends AppCompatActivity implements CameraBridgeViewBase.
 
         Rect[] facesArray = faces.toArray();
 
-        if ((facesArray.length==1)&&(faceState==TRAINING)&&(countImages<MAXIMG)&&(!text.equals("")))
-        {
-
+        // drawing rectangles on faces
+        if ((facesArray.length == 1) && (faceState == TRAINING) &&
+                (countImages < MAXIMG) && (!TextUtils.isEmpty(text))) {
 
             Mat m;
-            Rect r=facesArray[0];
+            Rect r = facesArray[0];
 
-
-            m=mRgba.submat(r);
+            m = mRgba.submat(r);
             mBitmap = Bitmap.createBitmap(m.width(),m.height(), Bitmap.Config.ARGB_8888);
-
 
             Utils.matToBitmap(m, mBitmap);
 
             Message msg = new Message();
-            String textTochange = "IMG";
-            msg.obj = textTochange;
+            String textToChange = "IMG";
+            msg.obj = textToChange;
             mHandler.sendMessage(msg);
-            if (countImages<MAXIMG)
-            {
-                fr.add(m, text);
+
+            if (countImages < MAXIMG) {
+                personRecognizer.add(m, text);
                 countImages++;
             }
-
         }
-        for (int i = 0; i < facesArray.length; i++)
+
+        for (int i = 0; i < facesArray.length; i++) {
             Core.rectangle(mRgba, facesArray[i].tl(), facesArray[i].br(), FACE_RECT_COLOR, 3);
+        }
 
         return mRgba;
     }

@@ -1,5 +1,7 @@
 package cultoftheunicorn.marvel;
 
+import android.util.Log;
+
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
@@ -7,21 +9,18 @@ import java.io.FileInputStream;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
-
-
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.StringTokenizer;
 
 
-import android.util.Log;
-
-
 public class Labels {
 
 	String mPath;
-	class label {
-		public label(String s, int n) {
+
+	class Label {
+
+	    public Label(String s, int n) {
 			thelabel=s;
 			num=n;
 		}
@@ -31,7 +30,7 @@ public class Labels {
 	}
 	//	HashMap<Integer,String> thelist=new HashMap<Integer,String>();
 
-	ArrayList<label> thelist=new ArrayList<label>();
+	ArrayList<Label> thelist=new ArrayList<Label>();
 
 	public Labels(String Path)
 	{
@@ -45,13 +44,13 @@ public class Labels {
 
 	public void add(String s,int n)
 	{
-		thelist.add( new label(s,n));
+		thelist.add( new Label(s,n));
 	}
 
 	public String get(int i) {
-		Iterator<label> Ilabel = thelist.iterator();
+		Iterator<Label> Ilabel = thelist.iterator();
 		while (Ilabel.hasNext()) {
-			label l = Ilabel.next();
+			Label l = Ilabel.next();
 			if (l.num==i)
 				return l.thelabel;
 		}
@@ -59,23 +58,23 @@ public class Labels {
 	}
 
 	public int get(String s) {
-		Iterator<label> Ilabel = thelist.iterator();
+		Iterator<Label> Ilabel = thelist.iterator();
 		while (Ilabel.hasNext()) {
-			label l = Ilabel.next();
+			Label l = Ilabel.next();
 			if (l.thelabel.equalsIgnoreCase(s))
 				return l.num;
 		}
 		return -1;
 	}
 
-	public void Save() {
+	public void save() {
 		try {
 			File f=new File (mPath+"faces.txt");
 			f.createNewFile();
 			BufferedWriter bw = new BufferedWriter(new FileWriter(f));
-			Iterator<label> Ilabel = thelist.iterator();
+			Iterator<Label> Ilabel = thelist.iterator();
 			while (Ilabel.hasNext()) {
-				label l = Ilabel.next();
+				Label l = Ilabel.next();
 				bw.write(l.thelabel+","+l.num);
 				bw.newLine();
 			}
@@ -87,7 +86,7 @@ public class Labels {
 		}
 	}
 
-	public void Read() {
+	public void read() {
 		try {
 
 			FileInputStream fstream = new FileInputStream(
@@ -96,14 +95,14 @@ public class Labels {
 					fstream));
 
 			String strLine;
-			thelist= new ArrayList<label>();
-			// Read File Line By Line
+			thelist= new ArrayList<Label>();
+			// read File Line By Line
 			while ((strLine = br.readLine()) != null) {
 				StringTokenizer tokens=new StringTokenizer(strLine,",");
 				String s=tokens.nextToken();
 				String sn=tokens.nextToken();
 
-				thelist.add(new label(s,Integer.parseInt(sn)));
+				thelist.add(new Label(s,Integer.parseInt(sn)));
 			}
 			br.close();
 			fstream.close();
@@ -115,9 +114,10 @@ public class Labels {
 
 	public int max() {
 		int m=0;
-		Iterator<label> Ilabel = thelist.iterator();
+
+		Iterator<Label> Ilabel = thelist.iterator();
 		while (Ilabel.hasNext()) {
-			label l = Ilabel.next();
+			Label l = Ilabel.next();
 			if (l.num>m) m=l.num;
 		}
 		return m;

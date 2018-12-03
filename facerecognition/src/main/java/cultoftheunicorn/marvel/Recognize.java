@@ -170,7 +170,7 @@ public class Recognize extends AppCompatActivity implements CameraBridgeViewBase
 
         Log.e("Path", mPath);
 
-        labelsFile= new Labels(mPath);
+        labelsFile = new Labels(mPath);
 
         mHandler = new Handler() {
             @Override
@@ -221,7 +221,7 @@ public class Recognize extends AppCompatActivity implements CameraBridgeViewBase
             @Override
             public void onClick(View v) {
                 if(uniqueNames.size() > 0) {
-                    Intent intent = new Intent(Recognize.this, ReviewResults.class);
+                    Intent intent = new Intent(Recognize.this, ReviewResultsActivity.class);
                     intent.putExtra("list", uniqueNamesArray);
                     startActivity(intent);
                 }
@@ -275,8 +275,7 @@ public class Recognize extends AppCompatActivity implements CameraBridgeViewBase
 
         Rect[] facesArray = faces.toArray();
 
-        if ((facesArray.length>0) && (faceState==SEARCHING))
-        {
+        if ((facesArray.length>0) && (faceState==SEARCHING)) {
             Mat m=new Mat();
             m=mGray.submat(facesArray[0]);
             mBitmap = Bitmap.createBitmap(m.width(),m.height(), Bitmap.Config.ARGB_8888);

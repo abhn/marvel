@@ -24,7 +24,7 @@ public class NameActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if(!name.getText().toString().equals("")) {
-                    Intent intent = new Intent(NameActivity.this, Training.class);
+                    Intent intent = new Intent(NameActivity.this, TrainingActivity.class);
                     intent.putExtra("name", name.getText().toString().trim());
                     startActivity(intent);
                 }
