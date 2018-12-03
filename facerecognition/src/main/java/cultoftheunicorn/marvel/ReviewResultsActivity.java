@@ -36,7 +36,7 @@ class Attendees {
 
 }
 
-public class ReviewResults extends AppCompatActivity implements ReviewListAdapter.ClickListener {
+public class ReviewResultsActivity extends AppCompatActivity implements ReviewListAdapter.ClickListener {
 
     private List<String> commitList = new ArrayList<>();
 
