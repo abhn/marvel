@@ -51,13 +51,13 @@
             android:name="cultoftheunicorn.marvel.Recognize"
             android:screenOrientation="landscape" />
         <activity
-            android:name="cultoftheunicorn.marvel.Training"
+            android:name="cultoftheunicorn.marvel.TrainingActivity"
             android:label="Training"
             android:screenOrientation="landscape" />
         <activity
             android:name="cultoftheunicorn.marvel.NameActivity"
             android:windowSoftInputMode="adjustNothing" />
-        <activity android:name="cultoftheunicorn.marvel.ReviewResults"
+        <activity android:name="cultoftheunicorn.marvel.ReviewResultsActivity"
             android:label="Review and Mark"/>
 
         <!--android:screenOrientation="portrait"-->
