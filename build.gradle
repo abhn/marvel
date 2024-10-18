@@ -1,16 +1,49 @@
-// Top-level build file where you can add configuration options common to all sub-projects/modules.
-buildscript {
-    repositories {
-        jcenter()
+apply plugin: 'com.android.application'
+
+android {
+    compileSdkVersion 22
+    buildToolsVersion "25.0.0"
+    compileSdkVersion 33 // Use the latest SDK
+
+    defaultConfig {
+        applicationId "cultoftheunicorn.marvel"
+        minSdkVersion 15
+        targetSdkVersion 22
+        minSdkVersion 21 // Update to a reasonable minimum SDK version
+        targetSdkVersion 33 // Use the latest target SDK
     }
-    dependencies {
-        classpath 'com.android.tools.build:gradle:2.2.2'
-//        classpath 'com.google.gms:google-services:3.0.0'
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.txt'
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
     }
 }
 
-allprojects {
-    repositories {
-        jcenter()
-    }
+dependencies {
+    compile project(':openCVLibrary2410')
+    compile files('libs/javacpp.jar')
+    compile files('libs/javacv.jar')
+    compile 'com.android.support:appcompat-v7:22.2.0'
+    compile 'com.android.support.constraint:constraint-layout:1.0.0-alpha9'
+    compile 'com.android.support:recyclerview-v7:22.2.0'
+//    compile 'com.google.firebase:firebase-database:10.0.1'
 }
+    implementation project(':openCVLibrary2410') // Updated to 'implementation'
+    implementation files('libs/javacpp.jar')    // Updated to 'implementation'
+    implementation files('libs/javacv.jar')     // Updated to 'implementation'
+
+    // Migrate to AndroidX Libraries
+    implementation 'androidx.appcompat:appcompat:1.6.1' 
+    implementation 'androidx.constraintlayout:constraintlayout:2.1.4' 
+    implementation 'androidx.recyclerview:recyclerview:1.3.0'
+
+    // Uncomment and update Firebase if needed
+    // implementation 'com.google.firebase:firebase-database:20.1.0'
+}
+
+//apply plugin: 'com.google.gms.google-services'
+// If using Google Services, uncomment the following line
+// apply plugin: 'com.google.gms.google-services'
