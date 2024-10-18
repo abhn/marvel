@@ -1,8 +1,8 @@
 package cultoftheunicorn.marvel;
 
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.Button;
@@ -16,16 +16,19 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.app_bar);
+        // Set up the toolbar
+        Toolbar toolbar = findViewById(R.id.app_bar);
         setSupportActionBar(toolbar);
 
-        if(getSupportActionBar() != null) {
+        if (getSupportActionBar() != null) {
             getSupportActionBar().setTitle("Marvel");
         }
 
-        Button recognizeButton = (Button) findViewById(R.id.recognizeButton);
-        Button trainingButton = (Button) findViewById(R.id.trainingButton);
+        // Initialize buttons
+        Button recognizeButton = findViewById(R.id.recognizeButton);
+        Button trainingButton = findViewById(R.id.trainingButton);
 
+        // Set click listeners for the buttons
         recognizeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -39,6 +42,5 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(new Intent(MainActivity.this, NameActivity.class));
             }
         });
-
     }
 }
